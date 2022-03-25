@@ -1,0 +1,26 @@
+﻿@model IEnumerable<Pog.Models.Topic>
+@{
+    ViewData["Title"] = "Home Page";
+
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+<button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("create", "Topics")'" >Go Somewhere Else</button>
+     <table class="table">
+
+        <thead>
+            <tr>
+                
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+           
+        </tbody>
+    </table>
