@@ -2,6 +2,7 @@
 
 namespace Pog.Controllers
 {
+    [Authorize(Roles = "ADMIN")]
     public class DashBoardsController : Controller
     {
         private readonly ApplicationDbContext _context;
