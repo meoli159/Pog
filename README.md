@@ -1,5 +1,5 @@
 COMP-1640
-Member: 
+Members: 
 
 Ta Minh Tien 
 
