@@ -11,7 +11,7 @@ using Pog.Models;
 
 namespace Pog.Controllers
 {
-    [Authorize(Roles = "Admin,QA")]
+    [Authorize(Roles = "ADMIN")]
     public class DepartmentsController : Controller
     {
         private readonly ApplicationDbContext _context;

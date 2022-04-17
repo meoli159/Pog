@@ -1,0 +1,89 @@
+﻿@model Pog.Models.TopicDueDate
+
+@{
+    ViewData["Title"] = "Details";
+    var Topics = (List<Topic>)ViewData["Topics"];
+}
+
+<h1>Details</h1>
+
+
+
+<div>
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+    <hr />
+
+    <div class="alert alert-danger">
+        <p class="text-danger"><strong>Topic creation will close</strong> on <strong>@Html.DisplayNameFor(model => model.DueDate): @Html.DisplayFor(model => model.DueDate)</strong>  and <strong>end</strong> on <strong>@Html.DisplayNameFor(model => model.FinalDate): @Html.DisplayFor(model => model.FinalDate)</strong>...</p>
+        <p class="text-danger">(All activities such as commenting or creating topics will be stopped!)</p>
+    </div>
+</div>
+
+@*Topic*@
+@if (@Model.DueDate < DateTime.Today)
+{
+    <p>
+        <button disabled type="button" class="btn btn-primary" onclick="location.href='@Url.Action("create", "Topics")'">Create Topic</button>
+    </p>
+}
+else
+{
+    <p>
+        <button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("create", "Topics")'">Create Topic</button>
+    </p>
+}
+
+
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>User</th>
+            <th>Category</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Topics.Count() == 0)
+        {
+            <tr><td colspan="4"><p>There is no topic.</p></td></tr>
+        }
+        else
+        {
+            foreach (var topic in Topics)
+            {
+                <tr>
+                    <td width="200px">
+                        <p><a asp-controller="Topics" asp-action="Details" asp-route-id="@topic.Id">@topic.Name</a></p>
+                        <p>@Html.DisplayFor( modelItem => topic.DateCreate)</p>
+                    </td>
+                    <td width="600px"><p class="text-limit">@Html.DisplayFor( modelItem => topic.Description)</p></td>
+                    <td>
+                        @if (topic.IsAnonymous == true)
+                        {
+                            <p>@Html.LabelFor(modelItem => topic.User.UserName , "Anonymous")</p>
+                        }
+                        else @if (topic.IsAnonymous == false)
+                        {
+                            <p>@Html.DisplayFor(modelItem => topic.User.UserName)</p>
+                        }
+                    </td>
+                    <td><p>@Html.DisplayFor( modelItem => topic.Category.Name)</p></td>
+                    @if (User.IsInRole("ADMIN") || User.IsInRole("QACOORDINATOR"))
+                    {
+                        <td>
+                        <p>
+                            <a asp-controller="Topics" asp-action="Edit" asp-route-id="@topic.Id">Edit</a>|
+                            <a asp-controller="Topics" asp-action="Details" asp-route-id="@topic.Id">Details</a>|
+                            <a asp-controller="Topics" asp-action="Delete" asp-route-id="@topic.Id">Delete</a>
+                        </p>
+                        </td>
+                    }
+                </tr>
+            }
+        }
+    </tbody>
+</table>

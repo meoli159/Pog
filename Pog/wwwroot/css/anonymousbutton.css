@@ -1,1 +1,52 @@
-﻿
+﻿.toggle-control {
+    display: none;
+}
+
+input.toggle-control + label {
+    margin-top: 14px;
+}
+
+input.toggle-control + label {
+    position: relative;
+    display: blocl;
+    width: 40px;
+    height: 20px;
+    background: #ddd;
+    border-radius: 60px;
+    cursor: pointer;
+    outline: none;
+    user-select: none;
+}
+
+
+    input.toggle-control + label::before,
+    input.toggle-control + label::after {
+        display: block;
+        position: absolute;
+        top: 1px;
+        left: 1px;
+        bottom: 1px;
+        right: 1px;
+        content: '';
+        transition: all 0.4s;
+    }
+
+    input.toggle-control + label::before {
+        background: #f1f1f1;
+        border-radius: 60px;
+    }
+
+    input.toggle-control + label::after {
+        width: 18px;
+        background: #fff;
+        border-radius: 100%;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    }
+
+input.toggle-control:checked + label::before {
+    background: #8ce196;
+}
+
+input.toggle-control:checked + label::after {
+    margin-left: 20px;
+}

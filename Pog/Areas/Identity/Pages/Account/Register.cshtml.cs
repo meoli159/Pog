@@ -32,6 +32,7 @@ namespace Pog.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<CUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ApplicationDbContext _context;
 
         public RegisterModel(
@@ -39,6 +40,7 @@ namespace Pog.Areas.Identity.Pages.Account
             IUserStore<CUser> userStore,
             SignInManager<CUser> signInManager,
             ILogger<RegisterModel> logger,
+            RoleManager<IdentityRole> roleManager,
             IEmailSender emailSender,
             ApplicationDbContext context)
         {
@@ -47,6 +49,7 @@ namespace Pog.Areas.Identity.Pages.Account
             _emailStore = (IUserEmailStore<CUser>)GetEmailStore();
             _signInManager = signInManager;
             _logger = logger;
+            _roleManager = roleManager;
             _emailSender = emailSender;
             _context = context;
         }
@@ -90,8 +93,8 @@ namespace Pog.Areas.Identity.Pages.Account
             public string Address { get; set; }
 
             [DataType(DataType.Date)]
-            [DisplayFormat(DataFormatString = "{dd-MM-yyyy}", ApplyFormatInEditMode = true)]
-            public DateOnly? BirthDay { get; set; }
+            [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
+            public DateTime? Birthday { get; set; }
 
             
             public int? DepartmentId { get; set; }
@@ -143,12 +146,13 @@ namespace Pog.Areas.Identity.Pages.Account
                 var user = new CUser {
                     FirstName = Input.FirstName,
                     LastName = Input.LastName,
-                    Birthday = Input.BirthDay,
+                    Birthday = Input.Birthday,
                     Gender = Input.Gender,
                     Address = Input.Address,
                     DepartmentId = Input.DepartmentId,
                     UserName = Input.Email,
-                    Email = Input.Email
+                    Email = Input.Email,
+                    
 
                 };
 
@@ -166,7 +170,11 @@ namespace Pog.Areas.Identity.Pages.Account
                         pageHandler: null,
                         values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
-
+                    var defaultrole = _roleManager.FindByNameAsync("STAFF").Result;
+                    if (defaultrole != null)
+                    {
+                        IdentityResult roleresult = await _userManager.AddToRoleAsync(user, defaultrole.Name);
+                    }
                     await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 

@@ -1,34 +1,45 @@
 ﻿@model Pog.Models.Department
 
+<link rel="stylesheet" href="~/css/Style.css" type="text/css" media="all" />
+<link rel="stylesheet" href="~/css/StyleLogin.css" type="text/css" media="all" />
+<link href="//fonts.googleapis.com/css2?family=Kumbh+Sans:wght@300;400;700&display=swap" rel="stylesheet">
+
 @{
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
 
-<h4>Department</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div class="signinform">
+    <!-- container -->
+    <div class="container">
+        <!-- main content -->
+        <div class="w3l-form-info">
+            <div class="w3l_form">
+                <div class="left_grid_info">
+                    <img src="~/images/Department-world-amico.png" alt="" />
+                </div>
+            </div>
+            <div class="w3_info">
+                <h2>Edit Department</h2>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="DepartmentName" class="control-label"></label>
-                <input asp-for="DepartmentName" class="form-control" />
-                <span asp-validation-for="DepartmentName" class="text-danger"></span>
+                <form asp-action="Edit">
+
+                    <div class="input-group">
+                        <span><i class="fas fa-user-edit" aria-hidden="true"></i></span>&emsp;&emsp;
+                        <input asp-for="DepartmentName" class="form-control" placeholder="Department Name" />
+                    </div>
+                   <span asp-validation-for="DepartmentName" class="text-danger"></span>
+
+                    <button id="login-submit" class="btn btn-primary btn-block" type="submit">Save</button>
+                </form>
+                <p class="account"><a asp-action="Index" asp-route-id="@Model?.Id">Back to List</a></p>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
+        <!-- //main content -->
     </div>
+    <!-- //container -->
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

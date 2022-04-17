@@ -1,51 +1,94 @@
 ﻿@model Pog.Models.Topic
+<link rel="stylesheet" href="~/css/Style.css" type="text/css" media="all" />
+<link rel="stylesheet" href="~/css/StyleLogin.css" type="text/css" media="all" />
+<link href="//fonts.googleapis.com/css2?family=Kumbh+Sans:wght@300;400;700&display=swap" rel="stylesheet">
 
 @{
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<div class="signinform">
+    <!-- container -->
+    <div class="container">
+        <!-- main content -->
+        <div class="w3l-form-info">
+            <div class="w3l_form">
+                <div class="left_grid_info">
+                    <img src="~/images/Publish article-amico.png" alt="" />
+                </div>
+            </div>
+            <div class="w3_info">
+                <h2>Create Topic</h2>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <form asp-action="Create" enctype="multipart/form-data" method="post">
 
-<h4>Topic</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+                    <div class="input-group">
+                        <span><i class="fas fa-user-edit" aria-hidden="true"></i></span>&emsp;&emsp;
+                        <label asp-for="Name" class="control-label"></label>
+                        <input asp-for="Name" class="form-control" placeholder="Name" />
+                    </div>
+                    <span asp-validation-for="Name" class="text-danger"></span>
+
+
+                    <div class="input-group">
+                        <span><i class="fas fa-edit" aria-hidden="true"></i></span>&emsp;&emsp;
+                        <label asp-for="Description" class="control-label"></label>&emsp;&emsp;
+                        <textarea asp-for="Description"></textarea>
+                    </div>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+
+
+
+                    <div class="input-group">
+                        <span><i class="fas fa-user-secret" aria-hidden="true"></i></span>&emsp;&emsp;
+                        <label asp-for="IsAnonymous" class="control-label">Anonymous Post </label>&emsp;
+                        <input name="IsAnonymous" id="toggle" class="toggle-control" type="checkbox" value="true"
+                               data-val-required="The IsEnabled field is required." data-val="true"
+                               data-bind="checked: IsEnabled" />
+                        <label for="toggle"></label>
+                    </div>
+                    <input asp-for="User" type="hidden" />
+
+
+                    <div class="input-group">
+                        <span><i class="fas fa-file-upload" aria-hidden="true"></i></span>&emsp;&emsp;
+                        <label asp-for="TopicAttachments" class="control-label"></label>&emsp;
+                        <input asp-for="TopicAttachments" type="file" name="files" />
+                    </div>
+
+                    <span asp-validation-for="TopicAttachments" class="text-danger"></span>
+
+
+                    <div class="input-group">
+                        <span><i class="fas fa-list-alt" aria-hidden="true"></i></span>&emsp;&emsp;
+                        <label asp-for="CategoryId" class="control-label"></label>&emsp;
+                        <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>
+                    </div>
+                    <span asp-validation-for="CategoryId" class="text-danger"></span>
+
+                    <div class="input-group">
+                        <span><i class="fas fa-clock" aria-hidden="true"></i></span>&emsp;&emsp;
+                        <label asp-for="TopicDueDateId" class="control-label"></label>&emsp;
+                        <select asp-for="TopicDueDateId" class="form-control" asp-items="ViewBag.TopicDueDateId"></select>
+                    </div>
+
+                    <div class="checkbox">
+                        @{
+                            await Html.RenderPartialAsync("_TOC");
+                        }                       
+                    </div>
+                    <span asp-validation-for="TermAndCondition" class="text-danger"></span>
+                    <button id="login-submit" class="btn btn-primary btn-block" type="submit">Create</button>
+                </form>
+                <p class="account"><a asp-action="Index" asp-route-id="@Model?.Id">Back to List</a></p>
             </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input name="IsAnonymous" id="IsAnonymous" type="checkbox" value="true" 
-                  data-val-required="The IsEnabled field is required." data-val="true" 
-                  data-bind="checked: IsEnabled"/>
-            </div>
-            <div class="form-group">
-                <label asp-for="StaffId" class="control-label"></label>
-                <select asp-for="StaffId" class ="form-control" asp-items="ViewBag.StaffId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="CategoryId" class="control-label"></label>
-                <select asp-for="CategoryId" class ="form-control" asp-items="ViewBag.CategoryId"></select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
+        <!-- //main content -->
     </div>
+    <!-- //container -->
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
 }
+    }

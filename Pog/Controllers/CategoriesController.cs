@@ -11,6 +11,7 @@ using Pog.Models;
 
 namespace Pog.Controllers
 {
+    [Authorize(Roles = "ADMIN,QAMANAGER")]
     public class CategoriesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -140,6 +141,20 @@ namespace Pog.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            foreach (var topic in _context.Topics)
+            {
+                if (topic.Id == id)
+                {
+                    _context.Topics.Remove(topic);
+                }
+            }
+            foreach (var comment in _context.Comments)
+            {
+                if (comment.Id == id)
+                {
+                    _context.Comments.Remove(comment);
+                }
+            }
             var category = await _context.Categories.FindAsync(id);
             _context.Categories.Remove(category);
             await _context.SaveChangesAsync();

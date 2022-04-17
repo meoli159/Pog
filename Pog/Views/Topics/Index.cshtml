@@ -1,65 +1,116 @@
-﻿@model IEnumerable<Pog.Models.Topic>
+﻿@model IPagedList<Pog.Models.Topic>
 
 @{
     ViewData["Title"] = "Index";
+    var i = 1;
 }
 
-<h1>Index</h1>
+<body>
+    <div class="w3l-homeblock1">
+        <div class="container">
+            <!-- block -->
+            <div class="row mt-5 pt-5">
+                <div class="col-lg-9 most-recent">
+                    <p>
+                        <button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("Index", "TopicDueDates")'">Show Semester for creating Topic</button>
+                    </p>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsAnonymous)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Staff)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Category)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>    
-            <td>
-                @Html.DisplayFor(modelItem => item.Name) at @Html.DisplayFor( modelItem => item.DateCreate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsAnonymous)
-            </td>
-                <td>@if (item.IsAnonymous == true)
-                    {                       
-                        @Html.LabelFor(modelItem => item.Staff.UserName , "Anonymous")                       
-                    }
-                    else @if(item.IsAnonymous == false || item.IsAnonymous == null)
-                    {
-                        @Html.DisplayFor(modelItem => item.Staff.UserName)
-                    }
-                </td>            
-            <td>
-                @Html.DisplayFor(modelItem => item.Category.Name)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+                    <h3 class="section-title-left">Most Recent posts </h3>
+                    <div class="list-view ">
+                        @foreach (var item in Model)
+                        {
+                            <div class="grids5-info img-block-mobile mt-5">
+                                <div class="blog-info align-self">
+                                    <span class="category">@Html.DisplayFor(modelItem => item.Category.Name)</span>
+                                    <a href="#blog-single" class="blog-desc mt-0">
+                                        @Html.ActionLink(@item.Name,"Details", new Topic {Id = item.Id})
+                                    </a>
+                                    <p class="text-limit">@Html.DisplayFor(modelItem => item.Description)</p>
+                                    <div class="author align-items-center mt-3 mb-1">
+                                        <a href="#author">
+                                            <strong>
+                                                @if (item.IsAnonymous == true)
+                                                {
+                                                    @Html.LabelFor(modelItem => item.User.UserName , "Anonymous")
+                                                }
+                                                else @if (item.IsAnonymous == false)
+                                                {
+                                                    @Html.DisplayFor(modelItem => item.User.UserName)
+                                                }
+                                            </strong>
+                                        </a>
+                                    </div>
+                                    <ul class="blog-meta">
+                                        <li class="meta-item blog-lesson">
+                                            <span class="meta-value">
+                                                Posted on @Html.DisplayFor( modelItem => item.DateCreate)
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <a class="d-block zoom mt-md-0 mt-3"><img src="~/images/question.jpg"
+                                    alt="" class="img-fluid radius-image news-image img-center"></a>
+                            </div>
+                            <hr />
+                        }
+
+                    </div>
+                    <!-- pagination -->
+                    <div class="pagination-wrapper mt-5">
+                        <ul class="page-pagination">
+                            <li>
+                                Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+                                @Html.PagedListPager((IPagedList)Model, page => Url.Action("Index",new { page }),
+                                new PagedListRenderOptions {
+                                LiElementClasses = new string[] { "page-item" },
+                                PageClasses = new string[] { "page-link" }
+                                })
+                            </li>
+
+                        </ul>
+                    </div>
+                    <!-- //pagination -->
+                </div>
+
+                <div class="col-lg-3 trending mt-lg-0 mt-5 mb-lg-5">
+                    <div class="pos-sticky">
+                        <h3 class="section-title-left">Trending </h3>
+                        @foreach (var item in Model)
+                        { 
+                            <div class="grids5-info">
+                                <h4>@(i++)</h4>
+                                <div class="blog-info">
+                                    <a href="#blog-single" class="blog-desc1">
+                                        @Html.ActionLink(@item.Name,"Details", new Topic {Id = item.Id})
+                                    </a>
+                                    <div class="author align-items-center mt-2 mb-1">
+                                        <a href="#author">
+                                            <strong>
+                                                @if (item.IsAnonymous == true)
+                                                {
+                                                    @Html.LabelFor(modelItem => item.User.UserName , "Anonymous")
+                                                }
+                                                else @if (item.IsAnonymous == false)
+                                                {
+                                                    @Html.DisplayFor(modelItem => item.User.UserName)
+                                                }
+                                            </strong>
+                                        </a>
+                                    </div>
+                                    <ul class="blog-meta">
+                                        <li class="meta-item blog-lesson">
+                                            <span class="meta-value">Posted on @Html.DisplayFor( modelItem => item.DateCreate)</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <!-- //block-->
+        </div>
+    </div>
+</body>
+
+

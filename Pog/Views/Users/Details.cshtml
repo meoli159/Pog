@@ -1,66 +1,87 @@
 ﻿@model Pog.Models.CUser
+<link href="~/css/Style-info-form.css" rel="stylesheet" type="text/css" media="all" />
 
 @{
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<div class="main-section">
+    <div class="heading">
+        <h1>Personal Info</h1>
+    </div>
+    <div class="child-main">
+        <div class="child-left">
+            <img src="~/images/avatar.jpg" alt="image">
 
-<div>
-    <h4>Topic</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.FirstName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.FirstName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.LastName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.LastName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PhoneNumber)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PhoneNumber)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Birthday)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Birthday)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Gender)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Gender)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Department.DepartmentName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Department.DepartmentName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Address)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Address)
-        </dd>  
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+            <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+            <a asp-action="Index">Back to List</a>
+
+        </div>
+        <div class="child-right">
+            <h3>@Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)</h3>
+            <h5>@Html.DisplayFor(model => model.Department.DepartmentName)</h5>
+
+            <ul class="address">
+
+                <li>
+                    <ul class="agileits-address-text ">
+                        <li class="agile-it-adress-left"><b>@Html.DisplayNameFor(model => model.FirstName)</b></li>
+                        <li><span>:</span>@Html.DisplayFor(model => model.FirstName)</li>
+                    </ul>
+                </li>
+
+                <li>
+                    <ul class="agileits-address-text">
+                        <li class="agile-it-adress-left"><b>@Html.DisplayNameFor(model => model.LastName)</b></li>
+                        <li><span>:</span>@Html.DisplayFor(model => model.LastName)</li>
+                    </ul>
+                </li>
+
+                <li>
+                    <ul class="agileits-address-text ">
+                        <li class="agile-it-adress-left"><b>@Html.DisplayNameFor(model => model.Email)</b></li>
+                        <li><span>:</span>@Html.DisplayFor(model => model.Email)</li>
+                    </ul>
+                </li>
+
+                <li>
+                    <ul class="agileits-address-text ">
+                        <li class="agile-it-adress-left"><b>@Html.DisplayNameFor(model => model.PhoneNumber)</b></li>
+                        <li><span>:</span>@Html.DisplayFor(model => model.PhoneNumber)</li>
+                    </ul>
+                </li>
+
+                <li>
+                    <ul class="agileits-address-text ">
+                        <li class="agile-it-adress-left"><b>@Html.DisplayNameFor(model => model.Birthday)</b></li>
+                        <li><span>:</span>@Html.DisplayFor(model => model.Birthday)</li>
+                    </ul>
+                </li>
+
+                <li>
+                    <ul class="agileits-address-text ">
+                        <li class="agile-it-adress-left"><b>@Html.DisplayNameFor(model => model.Gender)</b></li>
+                        <li><span>:</span>@Html.DisplayFor(model => model.Gender)</li>
+                    </ul>
+                </li>
+
+                <li>
+                    <ul class="agileits-address-text ">
+                        <li class="agile-it-adress-left"><b>@Html.DisplayNameFor(model => model.Department.DepartmentName)</b></li>
+                        <li><span>:</span>@Html.DisplayFor(model => model.Department.DepartmentName)</li>
+                    </ul>
+                </li>
+
+                <li>
+                    <ul class="agileits-address-text ">
+                        <li class="agile-it-adress-left"><b>@Html.DisplayNameFor(model => model.Address)</b></li>
+                        <li><span>:</span>@Html.DisplayFor(model => model.Address)</li>
+                    </ul>
+                </li>
+
+            </ul>
+
+        </div>
+
+
+

@@ -1,0 +1,53 @@
+﻿@model Pog.Models.TopicDueDate
+<link rel="stylesheet" href="~/css/Style.css" type="text/css" media="all" />
+<link rel="stylesheet" href="~/css/StyleLogin.css" type="text/css" media="all" />
+<link href="//fonts.googleapis.com/css2?family=Kumbh+Sans:wght@300;400;700&display=swap" rel="stylesheet">
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+
+<div class="signinform">
+    <!-- container -->
+    <div class="container">
+        <!-- main content -->
+        <div class="w3l-form-info">
+            <div class="w3l_form">
+                <div class="left_grid_info">
+                    <img src="~/images/Publish article-amico.png" alt="" />
+                </div>
+            </div>
+            <div class="w3_info">
+                <h2>Create Date Submitted</h2>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <form asp-action="Create" enctype="multipart/form-data" method="post">
+
+                    <div class="input-group">
+                        <span><i class="fas fa-calendar" aria-hidden="true"></i></span>&emsp;&emsp;
+                        <label asp-for="DueDate" class="control-label"></label>&emsp;
+                        <input asp-for="DueDate" id="TopicDueDate" class="form-control" placeholder="DueDate" />
+                    </div>
+                    <span asp-validation-for="DueDate" class="text-danger"></span>
+
+                    
+                    <div class="input-group">
+                        <span><i class="fas fa-calendar" aria-hidden="true"></i></span>&emsp;&emsp;
+                        <label asp-for="FinalDate" class="control-label"></label>&emsp;
+                        <input asp-for="FinalDate" class="form-control" placeholder="DueDate" />
+                    </div>
+                    <span asp-validation-for="FinalDate" class="text-danger"></span>
+
+                    <button id="login-submit" class="btn btn-primary btn-block" type="submit">Create</button>
+                </form>
+
+                <p class="account"><a asp-action="Index">Back to List</a></p>
+            </div>
+        </div>
+        <!-- //main content -->
+    </div>
+    <!-- //container -->
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

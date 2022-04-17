@@ -1,24 +1,46 @@
 ﻿@model Pog.Models.Category
 
+<link rel="stylesheet" href="~/css/Style.css" type="text/css" media="all" />
+<link rel="stylesheet" href="~/css/StyleLogin.css" type="text/css" media="all" />
+<link href="//fonts.googleapis.com/css2?family=Kumbh+Sans:wght@300;400;700&display=swap" rel="stylesheet">
+
+
 @{
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
 
-<div>
-    <h4>Category</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+
+<div class="signinform">
+    <!-- container -->
+    <div class="container">
+        <!-- main content -->
+        <div class="w3l-form-info">
+            <div class="w3l_form">
+                <div class="left_grid_info">
+                    <img src="~/images/Category-room-bro.png" alt="" />
+                </div>
+            </div>
+            <div class="w3_info">
+                <h2>Info Department</h2>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+                <form asp-action="Edit">
+
+                    <div class="input-group">
+                        <span><i class="fas fa-user-edit" aria-hidden="true"></i></span>&emsp;&emsp;
+                        <label class="control-label">@Html.DisplayNameFor(model => model.Name): @Html.DisplayFor(model => model.Name)</label>
+                        
+                    </div>
+                   
+                </form>
+                <p class="account">
+                    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+                    <a asp-action="Index" asp-route-id="@Model?.Id">Back to List</a>
+                </p>
+            </div>
+        </div>
+        <!-- //main content -->
+    </div>
+    <!-- //container -->
 </div>

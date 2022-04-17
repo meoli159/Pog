@@ -2,7 +2,6 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Pog.Data;
 
@@ -11,10 +10,9 @@ using Pog.Data;
 namespace Pog.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220325073518_cate-topic")]
-    partial class catetopic
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,31 +47,27 @@ namespace Pog.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "Admin",
-                            ConcurrencyStamp = "1",
-                            Name = "Admin",
-                            NormalizedName = "Admin"
+                            Id = "ADMIN",
+                            ConcurrencyStamp = "b8c201ea-40bf-4e92-ac00-c827db964ce2",
+                            Name = "ADMIN"
                         },
                         new
                         {
-                            Id = "QAManager",
-                            ConcurrencyStamp = "2",
-                            Name = "QAManager",
-                            NormalizedName = "Quality Assurance Manager"
+                            Id = "QAMANAGER",
+                            ConcurrencyStamp = "5ee73e27-2151-4807-a897-bed6338bb0d0",
+                            Name = "QAMANAGER"
                         },
                         new
                         {
-                            Id = "QACoordinator",
-                            ConcurrencyStamp = "3",
-                            Name = "QACoordinator ",
-                            NormalizedName = "Quality Assurance coordinator "
+                            Id = "QACOORDINATOR",
+                            ConcurrencyStamp = "a248f0a4-8e8f-4c37-b150-8a262836eef6",
+                            Name = "QACOORDINATOR"
                         },
                         new
                         {
-                            Id = "Staff",
-                            ConcurrencyStamp = "4",
-                            Name = "Staff",
-                            NormalizedName = "Staff"
+                            Id = "STAFF",
+                            ConcurrencyStamp = "cad70ce3-9981-433a-b4a1-4f1c23594bcc",
+                            Name = "STAFF"
                         });
                 });
 
@@ -163,7 +157,7 @@ namespace Pog.Migrations
                         new
                         {
                             UserId = "b74ddd14-6340-4840-95c2-db12554843e5",
-                            RoleId = "Admin"
+                            RoleId = "ADMIN"
                         });
                 });
 
@@ -199,6 +193,54 @@ namespace Pog.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Student Support"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Teaching Resource"
+                        });
+                });
+
+            modelBuilder.Entity("Pog.Models.Comment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("CommentText")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("DateCreate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("IsAnonymous")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<int>("TopicDueDateId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TopicId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("varchar(255)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TopicDueDateId");
+
+                    b.HasIndex("TopicId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("Pog.Models.CUser", b =>
@@ -212,8 +254,8 @@ namespace Pog.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("longtext");
 
-                    b.Property<DateOnly?>("Birthday")
-                        .HasColumnType("date");
+                    b.Property<DateTime?>("Birthday")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -262,6 +304,9 @@ namespace Pog.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("tinyint(1)");
+
+                    b.Property<int?>("Role")
+                        .HasColumnType("int");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("longtext");
@@ -322,21 +367,23 @@ namespace Pog.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Departments");
-                });
 
-            modelBuilder.Entity("Pog.Models.testmodel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("testmodels");
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DepartmentName = "IT"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DepartmentName = "Business"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            DepartmentName = "Graphic"
+                        });
                 });
 
             modelBuilder.Entity("Pog.Models.Topic", b =>
@@ -345,35 +392,76 @@ namespace Pog.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int?>("CategoryId")
-                        .IsRequired()
+                    b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("DateCreate")
+                    b.Property<DateTime>("DateCreate")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<bool?>("IsAnonymous")
+                    b.Property<bool>("IsAnonymous")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("StaffId")
-                        .IsRequired()
+                    b.Property<bool>("TermAndCondition")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("TopicAttachmentName")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("TopicAttachments")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("TopicDueDateId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
                         .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
 
-                    b.HasIndex("StaffId");
+                    b.HasIndex("TopicDueDateId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Topics");
+                });
+
+            modelBuilder.Entity("Pog.Models.TopicDueDate", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("DueDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("FinalDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TopicDueDates");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DueDate = new DateTime(2022, 4, 16, 1, 49, 59, 705, DateTimeKind.Local).AddTicks(9411),
+                            FinalDate = new DateTime(2022, 4, 16, 1, 49, 59, 705, DateTimeKind.Local).AddTicks(9421)
+                        });
                 });
 
             modelBuilder.Entity("Pog.Models.QA", b =>
@@ -441,6 +529,27 @@ namespace Pog.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Pog.Models.Comment", b =>
+                {
+                    b.HasOne("Pog.Models.TopicDueDate", "TopicDueDate")
+                        .WithMany("CommentList")
+                        .HasForeignKey("TopicDueDateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Pog.Models.Topic", null)
+                        .WithMany("Comments")
+                        .HasForeignKey("TopicId");
+
+                    b.HasOne("Pog.Models.CUser", "User")
+                        .WithMany("Comments")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("TopicDueDate");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Pog.Models.CUser", b =>
                 {
                     b.HasOne("Pog.Models.Department", "Department")
@@ -458,15 +567,21 @@ namespace Pog.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Pog.Models.CUser", "Staff")
-                        .WithMany("Topics")
-                        .HasForeignKey("StaffId")
+                    b.HasOne("Pog.Models.TopicDueDate", "TopicDueDate")
+                        .WithMany("TopicList")
+                        .HasForeignKey("TopicDueDateId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Pog.Models.CUser", "User")
+                        .WithMany("Topics")
+                        .HasForeignKey("UserId");
+
                     b.Navigation("Category");
 
-                    b.Navigation("Staff");
+                    b.Navigation("TopicDueDate");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Pog.Models.QA", b =>
@@ -494,12 +609,26 @@ namespace Pog.Migrations
 
             modelBuilder.Entity("Pog.Models.CUser", b =>
                 {
+                    b.Navigation("Comments");
+
                     b.Navigation("Topics");
                 });
 
             modelBuilder.Entity("Pog.Models.Department", b =>
                 {
                     b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("Pog.Models.Topic", b =>
+                {
+                    b.Navigation("Comments");
+                });
+
+            modelBuilder.Entity("Pog.Models.TopicDueDate", b =>
+                {
+                    b.Navigation("CommentList");
+
+                    b.Navigation("TopicList");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,31 +1,44 @@
 ﻿@model Pog.Models.Department
+<link rel="stylesheet" href="~/css/Style.css" type="text/css" media="all" />
+<link rel="stylesheet" href="~/css/StyleLogin.css" type="text/css" media="all" />
+<link href="//fonts.googleapis.com/css2?family=Kumbh+Sans:wght@300;400;700&display=swap" rel="stylesheet">
 
 @{
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
 
-<h4>Department</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="DepartmentName" class="control-label"></label>
-                <input asp-for="DepartmentName" class="form-control" />
-                <span asp-validation-for="DepartmentName" class="text-danger"></span>
+
+<div class="signinform">
+    <!-- container -->
+    <div class="container">
+        <!-- main content -->
+        <div class="w3l-form-info">
+            <div class="w3l_form">
+                <div class="left_grid_info">
+                    <img src="~/images/Department-world-amico.png" alt="" />
+                </div>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+            <div class="w3_info">
+                <h2>Create New Department</h2>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <form asp-action="Create" enctype="multipart/form-data" method="post">
+
+                    <div class="input-group">
+                        <span><i class="fas fa-user-edit" aria-hidden="true"></i></span>&emsp;&emsp;
+                        
+                        <input asp-for="DepartmentName" class="form-control" placeholder="Department Name" />
+                    </div>
+                    <span asp-validation-for="DepartmentName" class="text-danger"></span>
+
+                    <button id="login-submit" class="btn btn-primary btn-block" type="submit">Create</button>
+                </form>
+                <p class="account"><a asp-action="Index" asp-route-id="@Model?.Id">Back to List</a></p>
             </div>
-        </form>
+        </div>
+        <!-- //main content -->
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
+    <!-- //container -->
 </div>
 
 @section Scripts {

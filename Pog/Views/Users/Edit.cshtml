@@ -1,78 +1,111 @@
 ﻿@model Pog.Models.CUser
+<link href="~/css/Style-info-form.css" rel="stylesheet" type="text/css" media="all" />
 
 @{
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
-
-<h4>Topic</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <input type="hidden" asp-for="AccessFailedCount" />
-            <input type="hidden" asp-for="ConcurrencyStamp" />
-            <input type="hidden" asp-for="Email" />
-            <input type="hidden" asp-for="EmailConfirmed" />
-            <input type="hidden" asp-for="LockoutEnabled" />
-            <input type="hidden" asp-for="LockoutEnd" />
-            <input type="hidden" asp-for="NormalizedEmail" />
-            <input type="hidden" asp-for="NormalizedUserName" />
-            <input type="hidden" asp-for="PasswordHash" />
-            <input type="hidden" asp-for="PhoneNumber" />
-            <input type="hidden" asp-for="PhoneNumberConfirmed" />
-            <input type="hidden" asp-for="SecurityStamp" />
-            <input type="hidden" asp-for="TwoFactorEnabled" />
-            <input type="hidden" asp-for="UserName" />
-
-            <div class="form-group">
-                <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" class="form-control"/>
-                <span asp-validation-for="LastName" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Birthday" class="control-label"></label>
-                <input asp-for="Birthday" class="form-control" />
-                <span asp-validation-for="Birthday" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Address" class="control-label"></label>
-                <input asp-for="Address" class="form-control"/>
-                <span asp-validation-for="Address" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Gender" class="control-label"></label>
-                <select asp-for="Gender" asp-items="@Html.GetEnumSelectList<Gender>()"></select>
-                
-            </div>
-
-            <div class="form-group">
-                <label asp-for="DepartmentId" class="control-label"></label>
-                <select asp-for="DepartmentId" asp-items=@ViewBag.DepartmentIds></select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+<div class="main-section">
+    <div class="heading">
+        <h1>Edit personal info</h1>
     </div>
-</div>
+    <form asp-action="Edit">
+        <div class="child-main" style="min-height: 75vh">
+            <div class="child-left">
+                <img src="~/images/avatar.jpg" alt="image">
 
-<div>
-    <a asp-action="Index">Back to List</a>
+                <a asp-action="Details" asp-route-id="@Model.Id">Details</a> |
+                <a asp-action="Index">Back to List</a>
+                <button id="info-submit" class="btn btn-primary btn-block" type="submit">Save</button>
+            </div>
+            <div class="child-right">
+                <h3>@Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)</h3>
+                <h5 class="text-secondary">@Html.DisplayFor(model => model.Department.DepartmentName)</h5>
+
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="AccessFailedCount" />
+                <input type="hidden" asp-for="ConcurrencyStamp" />
+                <input type="hidden" asp-for="Email" />
+                <input type="hidden" asp-for="EmailConfirmed" />
+                <input type="hidden" asp-for="LockoutEnabled" />
+                <input type="hidden" asp-for="LockoutEnd" />
+                <input type="hidden" asp-for="NormalizedEmail" />
+                <input type="hidden" asp-for="NormalizedUserName" />
+                <input type="hidden" asp-for="PasswordHash" />
+                <input type="hidden" asp-for="PhoneNumberConfirmed" />
+                <input type="hidden" asp-for="SecurityStamp" />
+                <input type="hidden" asp-for="TwoFactorEnabled" />
+                <input type="hidden" asp-for="UserName" />
+
+                <ul class="address">
+                    <li>
+                        <ul class="agileits-address-text ">
+                            <li class="agile-it-adress-left"><b>@Html.DisplayNameFor(model => model.FirstName)</b></li>
+                            <span><strong>:</strong></span><li><input asp-for="FirstName" class="form-control" /></li>
+                            <span asp-validation-for="FirstName" class="text-danger"></span>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <ul class="agileits-address-text">
+                            <li class="agile-it-adress-left"><b>@Html.DisplayNameFor(model => model.LastName)</b></li>
+                            <span><strong>:</strong></span><li><input asp-for="LastName" class="form-control" /></li>
+                            <span asp-validation-for="LastName" class="text-danger"></span>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <ul class="agileits-address-text ">
+                            <li class="agile-it-adress-left"><b>@Html.DisplayNameFor(model => model.Email)</b></li>
+                            <span><strong>:</strong></span><li>@Html.DisplayFor(model => model.Email)</li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <ul class="agileits-address-text ">
+                            <li class="agile-it-adress-left"><b>@Html.DisplayNameFor(model => model.PhoneNumber)</b></li>
+                            <span><strong>:</strong></span><li><input asp-for="PhoneNumber" class="form-control" /></li>
+                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <ul class="agileits-address-text ">
+                            <li class="agile-it-adress-left"><b>@Html.DisplayNameFor(model => model.Birthday)</b></li>
+                            <span><strong>:</strong></span><li><input asp-for="Birthday" class="form-control" /></li>
+                            <span asp-validation-for="Birthday" class="text-danger"></span>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <ul class="agileits-address-text ">
+                            <li class="agile-it-adress-left"><b>@Html.DisplayNameFor(model => model.Gender)</b></li>
+                            <span><strong>:</strong></span><li><select asp-for="Gender" class="form-control" asp-items="@Html.GetEnumSelectList<Gender>()"></select></li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <ul class="agileits-address-text ">
+                            <li class="agile-it-adress-left"><b>@Html.DisplayNameFor(model => model.Department.DepartmentName)</b></li>
+                            <span><strong>:</strong></span><li><select asp-for="DepartmentId" class="form-control" asp-items=@ViewBag.DepartmentIds></select></li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <ul class="agileits-address-text ">
+                            <li class="agile-it-adress-left"><b>@Html.DisplayNameFor(model => model.Address)</b></li>
+                            <span><strong>:</strong></span><li><input asp-for="Address" class="form-control" /></li>
+                            <span asp-validation-for="Address" class="text-danger"></span>
+                        </ul>
+                    </li>
+            </div>
+        </div>
+    </form>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
 }

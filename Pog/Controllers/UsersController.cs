@@ -5,8 +5,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Pog.Controllers
 {
-    //[Authorize(Roles = "Admin,QA")]
-    [AllowAnonymous]
+    [Authorize(Roles = "ADMIN")]
     public class UsersController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -140,7 +139,7 @@ namespace Pog.Controllers
 
             var currentRoleIds = await _context.UserRoles.Where(u => u.UserId == user.Id).Select(u => u.RoleId).ToListAsync();
             //Change Name to Id if you want to show RoleID
-            var remainingRolesIds = await _context.Roles.Where(u => !currentRoleIds.Contains(u.Name)).Select(u => u.Name).ToListAsync();
+            var remainingRolesIds = await _context.Roles.Where(u => !currentRoleIds.Contains(u.Id)).Select(u => u.Id).ToListAsync();
 
             ViewData["RemainingRoleIds"] = remainingRolesIds;
             ViewData["CurrentRoleIds"] = currentRoleIds;

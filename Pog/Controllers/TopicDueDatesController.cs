@@ -11,22 +11,25 @@ using Pog.Models;
 
 namespace Pog.Controllers
 {
-    public class testmodelsController : Controller
+    [Authorize]
+    public class TopicDueDatesController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public testmodelsController(ApplicationDbContext context)
+        public TopicDueDatesController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: testmodels
+        // GET: TopicDueDates
+        
         public async Task<IActionResult> Index()
         {
-            return View(await _context.testmodels.ToListAsync());
+            return View(await _context.TopicDueDates.ToListAsync());
         }
 
-        // GET: testmodels/Details/5
+        // GET: TopicDueDates/Details/5
+        
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,39 +37,47 @@ namespace Pog.Controllers
                 return NotFound();
             }
 
-            var testmodel = await _context.testmodels
+            var topicDueDate = await _context.TopicDueDates.Include(m=>m.TopicList)               
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (testmodel == null)
+            if (topicDueDate == null)
             {
                 return NotFound();
             }
-
-            return View(testmodel);
+            ViewData["Topics"] = await _context.Topics.Include(t => t.User).Include(t=>t.Category).Include(t=>t.TopicDueDate).Where(t => t.TopicDueDateId == id).ToListAsync();
+            return View(topicDueDate);
         }
 
-        // GET: testmodels/Create
+
+        // GET: TopicDueDates/Create
+        [Authorize(Roles = "ADMIN")]
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: testmodels/Create
+        // POST: TopicDueDates/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name")] testmodel testmodel)
+        public async Task<IActionResult> Create([Bind("Id,CreateDate,DueDate,FinalDate")] TopicDueDate topicDueDate)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(testmodel);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+               
+                
+                    topicDueDate.CreateDate = DateTime.Now;
+                    _context.Add(topicDueDate);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                
+               
             }
-            return View(testmodel);
+            return View(topicDueDate);
         }
 
-        // GET: testmodels/Edit/5
+        // GET: TopicDueDates/Edit/5
+        [Authorize(Roles = "ADMIN")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -74,22 +85,22 @@ namespace Pog.Controllers
                 return NotFound();
             }
 
-            var testmodel = await _context.testmodels.FindAsync(id);
-            if (testmodel == null)
+            var topicDueDate = await _context.TopicDueDates.FindAsync(id);
+            if (topicDueDate == null)
             {
                 return NotFound();
             }
-            return View(testmodel);
+            return View(topicDueDate);
         }
 
-        // POST: testmodels/Edit/5
+        // POST: TopicDueDates/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] testmodel testmodel)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,DueDate,FinalDate")] TopicDueDate topicDueDate)
         {
-            if (id != testmodel.Id)
+            if (id != topicDueDate.Id)
             {
                 return NotFound();
             }
@@ -97,13 +108,13 @@ namespace Pog.Controllers
             if (ModelState.IsValid)
             {
                 try
-                {
-                    _context.Update(testmodel);
+                {               
+                    _context.Update(topicDueDate);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!testmodelExists(testmodel.Id))
+                    if (!TopicDueDateExists(topicDueDate.Id))
                     {
                         return NotFound();
                     }
@@ -114,41 +125,35 @@ namespace Pog.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(testmodel);
+            return View(topicDueDate);
         }
 
-        // GET: testmodels/Delete/5
+        // GET: TopicDueDates/Delete/5
+        [Authorize(Roles = "ADMIN")]
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            var topicDueDate = await _context.TopicDueDates.FindAsync(id);
+            _context.TopicDueDates.Remove(topicDueDate);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
 
-            var testmodel = await _context.testmodels
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (testmodel == null)
-            {
-                return NotFound();
-            }
-
-            return View(testmodel);
+           
         }
 
-        // POST: testmodels/Delete/5
+        // POST: TopicDueDates/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var testmodel = await _context.testmodels.FindAsync(id);
-            _context.testmodels.Remove(testmodel);
+            var topicDueDate = await _context.TopicDueDates.FindAsync(id);
+            _context.TopicDueDates.Remove(topicDueDate);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool testmodelExists(int id)
+        private bool TopicDueDateExists(int id)
         {
-            return _context.testmodels.Any(e => e.Id == id);
+            return _context.TopicDueDates.Any(e => e.Id == id);
         }
     }
 }
