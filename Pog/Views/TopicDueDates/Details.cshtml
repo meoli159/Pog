@@ -72,7 +72,7 @@ else
                         }
                     </td>
                     <td><p>@Html.DisplayFor( modelItem => topic.Category.Name)</p></td>
-                    @if (User.IsInRole("ADMIN") || User.IsInRole("QACOORDINATOR"))
+                    @if (User.IsInRole("ADMIN") || User.IsInRole("QACOORDINATOR")||User.IsInRole("QAMANAGER"))
                     {
                         <td>
                         <p>
