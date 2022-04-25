@@ -13,8 +13,8 @@ In this project I'm using .Net 6 with MVC framework
 
 Databasse I'm using Xampp for MySQL
 
-You can download sql data I include in file or you can run without it. The code is already have seeder data. 
-But not with department so remember to create one.
+You can download the sql data I put in the file or you can run without it. This code already has seeder data. 
+
 
 (Default) 
 
@@ -24,6 +24,7 @@ Password: Cyrusbanancomchua?@2501
 
 MySQL:
 Username: 
+
 Staff@gmail.com
 
 qamanager@gmail.com
