@@ -141,24 +141,28 @@ namespace Pog.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            foreach (var topic in _context.Topics)
+            var category = await _context.Categories.FirstOrDefaultAsync(c => c.Id == id);
+
+            if (category == null)
             {
-                if (topic.Id == id)
-                {
-                    _context.Topics.Remove(topic);
-                }
+                return RedirectToAction(nameof(Index));
             }
-            foreach (var comment in _context.Comments)
+
+            var topic = await _context.Topics.FirstOrDefaultAsync(t => t.CategoryId == category.Id);
+
+            if (topic == null)
             {
-                if (comment.Id == id)
-                {
-                    _context.Comments.Remove(comment);
-                }
+                _context.Categories.Remove(category);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
-            var category = await _context.Categories.FindAsync(id);
-            _context.Categories.Remove(category);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            else
+            {
+                ModelState.AddModelError("", "Category contains topic(s), cannot delete it!");
+            }
+
+            return View(category);
+          
         }
 
         private bool CategoryExists(int id)

@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "Details";
-    var Topics = (List<Topic>)ViewData["Topics"];
+    var Topics = (List<Topic>?)ViewData["Topics"];
 }
 
 <h1>Details</h1>
@@ -47,7 +47,7 @@ else
         </tr>
     </thead>
     <tbody>
-        @if (Topics.Count() == 0)
+        @if (Topics?.Count() == 0)
         {
             <tr><td colspan="4"><p>There is no topic.</p></td></tr>
         }
